@@ -1,32 +1,39 @@
-class Task{
-  constructor(text){
-      this.text=text
+class Task {
+  constructor(text) {
+    this.text = text
   }
 }
 
 
 
-class ToDoList{
-  constructor(){
-      this.tasks=["dfsfds","dwdwdwdw","d23d2d2"]
+class ToDoList {
+  constructor() {
+    this.tasks = []
 
-      this.render()
+    this.render()
   }
 
 
-render(){
-  document.body.innerHTML=''
+  render() {
+    document.body.innerHTML = ''
 
-  const ul= document.createElement('ul')
-  this.tasks.forEach(task=>{
-      const li=document.createElement('li')
-      li.innerText=task.text
+    const ul = document.createElement('ul')
+    this.tasks.forEach(task => {
+      const li = document.createElement('li')
+      li.innerText = task.text
       ul.appendChild(li)
-  })
-  document.body.appendChild(ul)
+    })
+    document.body.appendChild(ul)
 
+  }
+
+  addTaskToList(text){
+    this.tasks.push(new Task(text))
+    this.render()
 }
 
 
 }
 const todo = new ToDoList()
+todo.addTaskToList("bbbb")
+todo.addTaskToList("aaaa")
