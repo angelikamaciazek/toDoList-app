@@ -1,39 +1,77 @@
 class Task {
-  constructor(text) {
+  constructor(text, taskId) {
     this.text = text
+    this.taskId = taskId
   }
+
 }
-
-
 
 class ToDoList {
   constructor() {
-    this.tasks = []
 
+    this.tasks = []
+    this.rowIndex
+    this.deleteTaskButtonIndex = 0
+    this.taskId = 0
     this.render()
   }
 
-
   render() {
-    document.body.innerHTML = ''
 
+    document.body.innerHTML = ''
+    this.promptFormForAddingTask()
+    this.rowIndex = 0
     const ul = document.createElement('ul')
+    ul.className = 'todo-list'
     this.tasks.forEach(task => {
       const li = document.createElement('li')
+      const deleteTaskButton = document.createElement('div')
+      li.className = 'list-row'
+      deleteTaskButton.className = 'delete-task-button'
+      li.id = this.rowIndex++
+      deleteTaskButton.id = this.deleteTaskButtonIndex++
+
+      deleteTaskButton.addEventListener('click', () => {
+        console.log('tasks', this.tasks)
+        console.log('row', this.rowIndex)
+        ul.removeChild(li)
+      })
+
       li.innerText = task.text
+      li.appendChild(deleteTaskButton)
       ul.appendChild(li)
     })
     document.body.appendChild(ul)
 
   }
 
-  addTaskToList(text){
-    this.tasks.push(new Task(text))
-    this.render()
-}
+  addTaskToList(text) {
 
+    if (text == '' || text == null) {
+      alert("Dodaj zadanie!")
+    } else {
+      this.taskId++
+      this.tasks.push(new Task(text, this.taskId))
+    }
+    this.render()
+  }
+  removeTaskFromList() {
+
+    console.log('removed', this.tasks)
+    this.render()
+  }
+
+  promptFormForAddingTask() {
+    const input = document.createElement('input')
+    const button = document.createElement('button')
+    button.innerText = '+'
+
+    button.addEventListener('click', () => this.addTaskToList(input.value))
+    document.body.appendChild(input)
+    document.body.appendChild(button)
+
+  }
 
 }
 const todo = new ToDoList()
-todo.addTaskToList("bbbb")
-todo.addTaskToList("aaaa")
+
