@@ -1,30 +1,33 @@
 class Task {
   constructor(text) {
       this.text = text
-
-
       this.isCompleted = false
-     
   }
-
 }
 
-
-
 class ToDoList {
-  constructor() {
-
+  constructor(selectedHtmlElement) {
       this.tasks = []
-     
+      this.selectedHtmlElement = selectedHtmlElement || document.body
       this.render()
   }
 
-
   render() {
+      this.selectedHtmlElement.innerHTML = ''
+      this.addPromptFormForAddingTasks()
+      this.addFilteringButtons()
+      this.addListWithTasks()
+  }
 
-      document.body.innerHTML = ''
-      this.promptFormForAddingTask()
-     
+  addTaskToList(text) {
+      if (text == '' || text == null) {
+          alert("It would be too easy for you :)")
+      } else {
+          this.tasks.push(new Task(text))
+      }
+      this.render()
+  }
+  addListWithTasks() {
       const ul = document.createElement('ul')
       ul.className = 'todo-list'
       this.tasks.forEach((task, taskIndex) => {
@@ -37,7 +40,7 @@ class ToDoList {
 
           li.addEventListener('click', (event) => {
               event.target.classList.add('task--completed')
-              task.isCompleted=true
+              task.isCompleted = true
           })
 
           removeTaskButton.addEventListener('click', () => {
@@ -48,41 +51,43 @@ class ToDoList {
 
           removeTaskButton.appendChild(removeIcon)
           li.innerText = task.text
-          if(task.isCompleted){
-              li.style.textDecoration="line-through"
-              li.style.textDecorationColor='light-gray'
+          if (task.isCompleted) {
+              li.style.textDecoration = "line-through"
+              li.style.textDecorationColor = 'light-gray'
           }
-
           li.appendChild(removeTaskButton)
           ul.appendChild(li)
       })
-      document.body.appendChild(ul)
-
+      this.selectedHtmlElement.appendChild(ul)
   }
+  addFilteringButtons() {
+      const buttonAllTasks = document.createElement('button')
+      const buttonCompletedTasks = document.createElement('button')
+      const buttonTasksToBeDone = document.createElement('button')
+      buttonAllTasks.innerText = 'Wszystkie'
+      buttonCompletedTasks.innerText = 'Zrobione'
+      buttonTasksToBeDone.innerText = 'Do zrobienia'
 
+      buttonAllTasks.addEventListener('click', () => console.log('clicked'))
+      buttonCompletedTasks.addEventListener('click', () => console.log('clicked'))
+      buttonTasksToBeDone.addEventListener('click', () => console.log('clicked'))
 
-  addTaskToList(text) {
-      if (text == '' || text == null) {
-          alert("Empty task")
-      } else {
-          this.tasks.push(new Task(text))
-          console.log(this.tasks)
-      }
-      this.render()
+      this.selectedHtmlElement.appendChild(buttonAllTasks)
+      this.selectedHtmlElement.appendChild(buttonCompletedTasks)
+      this.selectedHtmlElement.appendChild(buttonTasksToBeDone)
   }
-
-
-  promptFormForAddingTask() {
+  addPromptFormForAddingTasks() {
       const input = document.createElement('input')
       const button = document.createElement('button')
       button.innerText = '+'
 
       button.addEventListener('click', () => this.addTaskToList(input.value))
-      document.body.appendChild(input)
-      document.body.appendChild(button)
 
+      this.selectedHtmlElement.appendChild(input)
+      this.selectedHtmlElement.appendChild(button)
   }
 
 
 }
-const todo = new ToDoList()
+// const todo = new ToDoList()
+const todo = new ToDoList(document.querySelector('.testing'))
