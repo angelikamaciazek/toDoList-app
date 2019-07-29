@@ -7,7 +7,7 @@ class Task {
 
 class ToDoList {
   constructor(selectedHtmlElement) {
-      this.tasks = []
+    this.tasks = JSON.parse(window.localStorage.getItem("tasks")) || []
       this.completed = []
       this.toBeDone = []
       this.selectedHtmlElement = selectedHtmlElement || document.body
@@ -23,9 +23,10 @@ class ToDoList {
 
   addTaskToList(text) {
       if (text == '' || text == null) {
-          alert("To zadani zjadasz na śniadanie! :)")
+          alert("To zadanie zjadasz na śniadanie! :)")
       } else {
           this.tasks.push(new Task(text))
+          this.saveTaskInLocalStorage()
       }
       this.render(this.tasks)
   }
@@ -43,11 +44,13 @@ class ToDoList {
           li.addEventListener('click', (event) => {
               event.target.classList.add('task--completed')
               task.isCompleted = true
+              this.saveTaskInLocalStorage()
           })
 
           removeTaskButton.addEventListener('click', () => {
               ul.removeChild(li)
               this.tasks = this.tasks.slice(0, taskIndex).concat(this.tasks.slice(taskIndex + 1, this.tasks.length))
+              this.saveTaskInLocalStorage()
               this.render(this.tasks)
           })
 
@@ -101,6 +104,9 @@ class ToDoList {
       this.selectedHtmlElement.appendChild(button)
   }
 
+  saveTaskInLocalStorage() {
+    window.localStorage.setItem("tasks", JSON.stringify(this.tasks))
+}
 
 }
 // const todo = new ToDoList()
