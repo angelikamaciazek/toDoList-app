@@ -6,22 +6,22 @@ class Task {
 }
 
 class ToDoList {
-  constructor(selectedHtmlElement) {
+  constructor(container) {
     this.tasks = JSON.parse(window.localStorage.getItem("tasks")) || []
     this.completed = []
     this.toBeDone = []
     this.searchedTask = ''
     this.foundTasks = []
-    this.selectedHtmlElement = selectedHtmlElement || document.body
+    this.container = container || document.body
     this.render(this.tasks)
   }
 
-  render(chosenTaskArray) {
-    this.selectedHtmlElement.innerHTML = ''
+  render(tasksArray) {
+    this.container.innerHTML = ''
     this.addPromptFormForAddingTasks()
     this.addSearchTaskButton()
     this.addFilteringButtons()
-    this.addListWithTasks(chosenTaskArray)
+    this.addListWithTasks(tasksArray)
   }
 
   addTaskToList(text) {
@@ -33,14 +33,14 @@ class ToDoList {
     }
     this.render(this.tasks)
   }
-  addListWithTasks(chosenTaskArray) {
+  addListWithTasks(tasksArray) {
     const ul = document.createElement('ul')
-    ul.className = 'todo-list'
-    chosenTaskArray.forEach((task, taskIndex) => {
+    ul.className = 'to-do-list'
+    tasksArray.forEach((task, taskIndex) => {
       const li = document.createElement('li')
       const removeTaskButton = document.createElement('div')
-      const removeIcon = document.createElement('button')
-      removeIcon.innerText = 'Usuń'
+      const removeButton = document.createElement('button')
+      removeButton.innerText = 'Usuń'
 
       li.classList.add('task')
       removeTaskButton.className = 'delete-task-button'
@@ -58,16 +58,16 @@ class ToDoList {
         this.render(this.tasks)
       })
 
-      removeTaskButton.appendChild(removeIcon)
+      removeTaskButton.appendChild(removeButton)
       li.innerText = task.text
       if (task.isCompleted) {
         li.style.textDecoration = "line-through"
-        li.style.textDecorationColor = 'light-gray'
+        li.style.textDecorationColor = 'gray'
       }
       li.appendChild(removeTaskButton)
       ul.appendChild(li)
     })
-    this.selectedHtmlElement.appendChild(ul)
+    this.container.appendChild(ul)
   }
 
   addFilteringButtons() {
@@ -75,8 +75,11 @@ class ToDoList {
     const buttonCompletedTasks = document.createElement('button')
     const buttonTasksToBeDone = document.createElement('button')
     buttonAllTasks.innerText = 'Wszystkie'
+    buttonAllTasks.className = 'filterButton'
     buttonCompletedTasks.innerText = 'Zrobione'
+    buttonCompletedTasks.className = 'filterButton'
     buttonTasksToBeDone.innerText = 'Do zrobienia'
+    buttonTasksToBeDone.className = 'filterButton'
 
     buttonAllTasks.addEventListener('click', () => this.render(this.tasks))
 
@@ -89,9 +92,9 @@ class ToDoList {
       this.render(this.toBeDone)
     })
 
-    this.selectedHtmlElement.appendChild(buttonAllTasks)
-    this.selectedHtmlElement.appendChild(buttonCompletedTasks)
-    this.selectedHtmlElement.appendChild(buttonTasksToBeDone)
+    this.container.appendChild(buttonAllTasks)
+    this.container.appendChild(buttonCompletedTasks)
+    this.container.appendChild(buttonTasksToBeDone)
   }
 
   addPromptFormForAddingTasks() {
@@ -104,25 +107,34 @@ class ToDoList {
 
     button.addEventListener('click', () => this.addTaskToList(input.value))
 
-    this.selectedHtmlElement.appendChild(input)
-    this.selectedHtmlElement.appendChild(button)
+    this.container.appendChild(input)
+    this.container.appendChild(button)
   }
 
   addSearchTaskButton() {
-    const input = document.createElement('input')
+    const searchInput = document.createElement('input')
+    searchInput.className = 'search-task--input'
     const searchButton = document.createElement('button')
-    input.className = 'search-task--input'
+    searchButton.className = 'search-task--button'
     searchButton.innerText = 'Szukaj'
 
     searchButton.addEventListener('click', () => {
-      const input = document.querySelector('.search-task--input')
-      this.searchedTask = input.value
+      const searchInput = document.querySelector('.search-task--input')
+      this.searchedTask = searchInput.value
 
-      
+      this.findingTasks = this.tasks.filter((task) => (
+        task.text
+        .toLowerCase()
+        .includes(
+            this.searchedTask
+            .toLowerCase()
+        )
+    ))
+    this.render(this.findingTasks)
     })
 
-    this.selectedHtmlElement.appendChild(input)
-    this.selectedHtmlElement.appendChild(searchButton)
+    this.container.appendChild(searchInput)
+    this.container.appendChild(searchButton)
   }
 
   saveTaskInLocalStorage() {
