@@ -26,7 +26,7 @@ class ToDoList {
 
   addTaskToList(text) {
     if (text == '' || text == null) {
-      alert("It would be too easy for you :)")
+      alert("To byłoby dla Ciebie zbyt proste! Dodaj zadanie!")
     } else {
       this.tasks.push(new Task(text))
       this.saveTaskInLocalStorage()
