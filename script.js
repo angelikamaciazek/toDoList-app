@@ -39,7 +39,8 @@ class ToDoList {
     chosenTaskArray.forEach((task, taskIndex) => {
       const li = document.createElement('li')
       const removeTaskButton = document.createElement('div')
-      const removeIcon = document.createTextNode("\u00D7")
+      const removeIcon = document.createElement('button')
+      removeIcon.innerText = 'Usuń'
 
       li.classList.add('task')
       removeTaskButton.className = 'delete-task-button'
