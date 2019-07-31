@@ -23,8 +23,6 @@ class ToDoList {
     this.addFilteringButtons()
     this.addListWithTasks(tasksArray)
   }
-  
-
 
   addTaskToList(text) {
     if (text == '' || text == null) {
@@ -65,6 +63,7 @@ class ToDoList {
       if (task.isCompleted) {
         li.style.textDecoration = "line-through"
         li.style.textDecorationColor = 'gray'
+        li.style.color = 'gray'
       }
       li.appendChild(removeTaskButton)
       ul.appendChild(li)
