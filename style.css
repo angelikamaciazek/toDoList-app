@@ -14,15 +14,46 @@ body{
 }
 .search-task--input{
     display: block;
-    margin: 0 auto;
+    margin: 20px auto 5px auto;
+    width: 300px;
+    height: 25px;
+
     
 }
 .search-task--button{
-    margin: 0 auto;
+    margin: 0 auto 15px auto;
 display: block;
+width: 90px;
+text-transform: uppercase;
+letter-spacing: 1px;
+background: gray;
+border: 1px solid gray;
+color: #fff;
+padding: 5px 0;
+
+}
+.add-task--input{
+    width: 300px;
+    height: 25px;
+
+}
+.add-task--button{
+    border: 1px solid lightseagreen;
+    background: lightseagreen;
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    font-size: 18px;
+    color: #fff;
 }
 .filter--button{
-    display:
+    background: cadetblue;
+    border: 1px solid cadetblue;
+    margin: 5px 10px;
+    padding: 5px 0;
+    width: 120px;
+    text-transform: uppercase;
+    color: #fff;
 }
 .to-do-list{
     display: block;
