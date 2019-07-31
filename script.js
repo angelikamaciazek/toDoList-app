@@ -24,6 +24,8 @@ class ToDoList {
     this.addListWithTasks(tasksArray)
   }
   
+
+
   addTaskToList(text) {
     if (text == '' || text == null) {
       alert("To byłoby dla Ciebie zbyt proste! Dodaj zadanie!")
@@ -142,6 +144,8 @@ class ToDoList {
       saveTaskInLocalStorage() {
         window.localStorage.setItem("tasks", JSON.stringify(this.tasks))
       }
+
+      
       
     }
     const todo = new ToDoList()
